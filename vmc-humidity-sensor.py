@@ -73,7 +73,7 @@ sensor = Adafruit_DHT.DHT11
 # connected to pin P8_11.
 pin = '4'
 
-wait_time_seconds = 1
+wait_time_secon
 led_stopped = True
 led_duty_cycle_value = 0
 
