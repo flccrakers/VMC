@@ -10,6 +10,7 @@ There is two application:
  
  ## Material and electronics
  
+ * Humidity an temperature sensor DHT11: https://www.amazon.fr/gp/product/B01LYBDXN5/ref=oh_aui_detailpage_o03_s00?ie=UTF8&psc=1
  * FAN: an PC FAN of 12cm wide will be ok, I use the following ARCTIC F12:  https://www.amazon.fr/gp/product/B002KTVFTE/ref=oh_aui_detailpage_o03_s00?ie=UTF8&psc=1
  * 12 volt power supply for the FAN it convert 220 v into 12 ,generally used for led light :https://www.amazon.fr/gp/product/B014SM4NP8/ref=oh_aui_detailpage_o01_s00?ie=UTF8&psc=1
  * raspberry pi zero
@@ -17,4 +18,8 @@ There is two application:
  * two resistors (see electrical drawing included as picture for specifications) 
  * one diode to prevent to get electricity back from the motor.
  
+ ## Electrical drawing VMC with humidity SENSOR
+ ![alt text](./img/VMC_sensor_scheme.png)
  
+ ## Electrical drawing VMC timestamp
+ ![alt text](./img/VMC_time_scheme.png)
