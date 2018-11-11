@@ -59,8 +59,6 @@ class MyLogger(object):
 # Replace stderr with logging to file at ERROR level
 # sys.stderr = MyLogger(logger, logging.ERROR)
 
-i = 0
-
 # ###################################################################
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -107,11 +105,12 @@ while True:
             logger.info('Below 70% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
             LED.start(1)
             LED.ChangeDutyCycle(30)
-            wait_time_seconds = 60 * 2
+            wait_time_seconds = 1
         elif 71 < humidity:
             logger.info('Up 70% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
             LED.ChangeDutyCycle(100)
-            wait_time_seconds = 60 * 2
+            wait_time_seconds = 1
     else:
         logger.debug('Failed to get reading. I\' Try again in ' + str(wait_time_seconds) + 'seconds')
     sleep(wait_time_seconds)
+GPIO.cleanup()
