@@ -62,10 +62,10 @@ class MyLogger(object):
 # ###################################################################
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.OUT)
+GPIO.setup(21, GPIO.OUT)
 
 # creation d'un objet PWM. canal=4 frequence=50Hz
-LED = GPIO.PWM(17, 20)
+LED = GPIO.PWM(21, 20)
 
 LED.start(0)
 # Sensor should be set to Adafruit_DHT.DHT11,
