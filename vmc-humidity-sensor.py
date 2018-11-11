@@ -73,7 +73,7 @@ sensor = Adafruit_DHT.DHT11
 # connected to pin P8_11.
 pin = '4'
 
-wait_time_secon
+wait_time_second = 1
 led_stopped = True
 led_duty_cycle_value = 0
 
@@ -87,15 +87,15 @@ while True:
     # timing of calls to read the sensor). If this happens try again!
     if humidity is not None and temperature is not None:
         # print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
-        if humidity <= 55:
+        if humidity <= 65:
             FAN.stop()
             wait_time_seconds = 1
-        elif 55 < humidity < 70:
+        elif 65 < humidity <= 75:
             logger.info('Below 70% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
             FAN.start(1)
             FAN.ChangeDutyCycle(1)
             wait_time_seconds = 60 * 2
-        elif 71 < humidity:
+        elif 75 < humidity:
             logger.info('Up 70% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
             FAN.ChangeDutyCycle(100)
             wait_time_seconds = 60 * 2
