@@ -19,7 +19,7 @@ There is two application:
  * one diode to prevent to get electricity back from the motor.
  
  ## Electrical drawing VMC with humidity SENSOR
- ![alt text](./img/VMC_sensor_scheme.png)
+ ![VMC with sensor scheme](./img/VMC_sensor_scheme.png)
  
  ## Electrical drawing VMC timestamp
- ![alt text](./img/VMC_time_scheme.png)
+ ![VMC time scheme](./img/VMC_time_scheme.png)
