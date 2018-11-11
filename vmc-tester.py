@@ -80,6 +80,7 @@ pin = '4'
 # connected to GPIO23.
 # pin = 23
 wait_time_seconds = 1
+time_to_vent = 60 #time to put the fan on : 60 sec
 
 # Loop forever, doing something useful hopefully:
 while True:
@@ -99,11 +100,11 @@ while True:
     if humidity is not None:
         # print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
         if humidity <= 55:
-            LED.stop()
+            LED.ChangeDutyCycle(0)
             wait_time_seconds = 1
         elif 55 < humidity < 70:
             logger.info('Below 70% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
-            LED.start(1)
+            #LED.start(1)
             LED.ChangeDutyCycle(30)
             wait_time_seconds = 1
         elif 71 < humidity:
