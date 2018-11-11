@@ -83,6 +83,9 @@ pin = '4'
 wait_time_seconds = 1
 time_to_vent = 3 * 1000  # time to put the fan on : 60 sec
 start_vent_date = None
+slow_duty = 30
+high_duty = 100
+duty = slow_duty
 
 # Loop forever, doing something useful hopefully:
 while True:
@@ -103,18 +106,23 @@ while True:
         if humidity is not None:
             # print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
             if humidity <= 55:
-                LED.ChangeDutyCycle(0)
+                duty = 0
+                LED.ChangeDutyCycle(duty)
                 wait_time_seconds = 1
                 start_vent_date = None
             elif 55 < humidity < 70:
                 logger.info('Below 70% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
                 # LED.start(1)
-                LED.ChangeDutyCycle(30)
+                if not duty == slow_duty:
+                    duty = slow_duty
+                    LED.ChangeDutyCycle(duty)
                 start_vent_date = time.time()
                 wait_time_seconds = 1
             elif 71 < humidity:
                 logger.info('Up 70% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
-                LED.ChangeDutyCycle(100)
+                if not duty == high_duty:
+                    duty = high_duty
+                    LED.ChangeDutyCycle(duty)
                 start_vent_date = time.time()
                 wait_time_seconds = 1
         else:
