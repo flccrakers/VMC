@@ -97,18 +97,18 @@ while True:
         humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 
     if humidity is not None:
-        if humidity <= 55:
+        if humidity <= 65:
             duty = 0
             FAN.ChangeDutyCycle(duty)
             start_vent_date = 1000
-        elif 55 < humidity < 70:
+        elif 65 < humidity < 75:
             logger.info('Below 70% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
             if not duty == slow_duty:
                 duty = slow_duty
                 FAN.ChangeDutyCycle(duty)
             if start_vent_date == 1000 or time_left_above_zero(start_vent_date, time_to_vent):
                 start_vent_date = time()
-        elif 71 < humidity:
+        elif 75 < humidity:
             logger.info('Up 70% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
             if not duty == high_duty:
                 duty = high_duty
