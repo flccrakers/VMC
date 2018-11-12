@@ -21,7 +21,7 @@ parser.add_argument("-hu", "--humidity", help="file to write log to (default '" 
 # If the log file is specified on the command line then override the default
 HUMIDITY = None
 args = parser.parse_args()
-#print(args)
+# print(args)
 if args.log:
     LOG_FILENAME = args.log
 if args.humidity:
@@ -96,14 +96,15 @@ slow_duty = 30
 high_duty = 100
 duty = slow_duty
 humidity = None
+temperature = None
 
 # Loop forever, doing something useful hopefully:
 while True:
-    #print("remaining time: " + str(start_vent_date + time_to_vent - time.time()))
+    # print("remaining time: " + str(start_vent_date + time_to_vent - time.time()))
     if time_left_above_zero(start_vent_date, time_to_vent):
         # Try to grab a sensor reading.  Use the read_retry method which will retry up
         # to 15 times to get a sensor reading (waiting 2 seconds between each retry).
-        #print("!! measuring humidity ...")
+        # print("!! measuring humidity ...")
         humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 
         # Note that sometimes you won't get a reading and
@@ -114,10 +115,10 @@ while True:
     # print('HUMIDITY: ' + str(HUMIDITY))
     if HUMIDITY is not None:
         humidity = HUMIDITY
-    #print("humidity: " + str(humidity))
+    # print("humidity: " + str(humidity))
     if humidity is not None:
-        #print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
-        #print("duty: " + str(duty))
+        # print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
+        # print("duty: " + str(duty))
         if humidity <= 55:
             duty = 0
             LED.ChangeDutyCycle(duty)
