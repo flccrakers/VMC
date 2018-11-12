@@ -130,7 +130,7 @@ while True:
             if not duty == slow_duty:
                 duty = slow_duty
                 LED.ChangeDutyCycle(duty)
-            if start_vent_date == 1000 or time_left_above_zero(start_vent_date, time_to_vent):
+            if time_left_above_zero(start_vent_date, time_to_vent):
                 start_vent_date = time.time()
             # wait_time_seconds = 1
         elif 71 < humidity:
@@ -138,7 +138,7 @@ while True:
             if not duty == high_duty:
                 duty = high_duty
                 LED.ChangeDutyCycle(duty)
-            if start_vent_date == 1000 or time_left_above_zero(start_vent_date, time_to_vent):
+            if time_left_above_zero(start_vent_date, time_to_vent):
                 start_vent_date = time.time()
                 # wait_time_seconds = 1
         else:
