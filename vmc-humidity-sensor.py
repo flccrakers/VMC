@@ -100,16 +100,20 @@ while True:
         if humidity <= 65:
             duty = 0
             FAN.ChangeDutyCycle(duty)
+            if not start_vent_date == 1000:
+                logger.info('FAN stopped =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
             start_vent_date = 1000
         elif 65 < humidity < 75:
-            logger.info('65% to 75% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
+            logger.info(
+                'FAN at ' + str(slow_duty) + '% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
             if not duty == slow_duty:
                 duty = slow_duty
                 FAN.ChangeDutyCycle(duty)
             if time_left_above_zero(start_vent_date, time_to_vent):
                 start_vent_date = time()
         elif 75 < humidity:
-            logger.info('Above 75% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
+            logger.info(
+                'FAN at ' + str(high_duty) + '% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
             if not duty == high_duty:
                 duty = high_duty
                 FAN.ChangeDutyCycle(duty)
@@ -118,4 +122,3 @@ while True:
         else:
             logger.debug('Failed to get reading. I\' Try again in ' + str(wait_time_seconds) + ' seconds')
     sleep(wait_time_seconds)
-
