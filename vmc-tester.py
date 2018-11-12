@@ -80,18 +80,26 @@ pin = '4'
 # Example using a Raspberry Pi with DHT sensor
 # connected to GPIO23.
 # pin = 23
+
+def shouldMesure(start, time_vent):
+    if start + time_vent - time.time() >= 0:
+        return False
+    else:
+        return True
 wait_time_seconds = 1
-time_to_vent = 3 * 1000  # time to put the fan on : 60 sec
-start_vent_date = None
+time_to_vent = 20  # time to put the fan on : 60 sec
+start_vent_date = 1000
 slow_duty = 30
 high_duty = 100
 duty = slow_duty
 
 # Loop forever, doing something useful hopefully:
 while True:
-    if start_vent_date and time.time() < (start_vent_date + time_to_vent):
+    print("remaining time: "+str(start_vent_date + time_to_vent - time.time()))
+    if shouldMesure(start_vent_date, time_to_vent) :
         # Try to grab a sensor reading.  Use the read_retry method which will retry up
         # to 15 times to get a sensor reading (waiting 2 seconds between each retry).
+        print("***************** mesuring humidity ********************")
         humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 
         # Note that sometimes you won't get a reading and
@@ -99,32 +107,35 @@ while True:
         # guarantee the timing of calls to read the sensor).
         # If this happens try again!
 
-        print('HUMIDITY: ' + str(HUMIDITY))
-        if HUMIDITY is not None:
-            humidity = HUMIDITY
-        print("humidity: " + str(humidity))
-        if humidity is not None:
-            # print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
-            if humidity <= 55:
-                duty = 0
+    print('HUMIDITY: ' + str(HUMIDITY))
+    if HUMIDITY is not None:
+        humidity = HUMIDITY
+    print("humidity: " + str(humidity))
+    if humidity is not None:
+        # print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
+        print("duty: " + str(duty))
+        if humidity <= 55:
+            duty = 0
+            LED.ChangeDutyCycle(duty)
+            #wait_time_seconds = 1
+            start_vent_date = 1000
+        elif 55 < humidity < 70:
+            logger.info('Below 70% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
+            # LED.start(1)
+            if not duty == slow_duty:
+                duty = slow_duty
                 LED.ChangeDutyCycle(duty)
-                wait_time_seconds = 1
-                start_vent_date = None
-            elif 55 < humidity < 70:
-                logger.info('Below 70% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
-                # LED.start(1)
-                if not duty == slow_duty:
-                    duty = slow_duty
-                    LED.ChangeDutyCycle(duty)
+            if start_vent_date == 1000:
                 start_vent_date = time.time()
-                wait_time_seconds = 1
-            elif 71 < humidity:
-                logger.info('Up 70% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
-                if not duty == high_duty:
-                    duty = high_duty
-                    LED.ChangeDutyCycle(duty)
+            #wait_time_seconds = 1
+        elif 71 < humidity:
+            logger.info('Up 70% =>Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
+            if not duty == high_duty:
+                duty = high_duty
+                LED.ChangeDutyCycle(duty)
+            if start_vent_date == 1000:
                 start_vent_date = time.time()
-                wait_time_seconds = 1
+                #wait_time_seconds = 1
         else:
             logger.debug('Failed to get reading. I\' Try again in ' + str(wait_time_seconds) + 'seconds')
     sleep(wait_time_seconds)
