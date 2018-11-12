@@ -60,10 +60,10 @@ i = 0
 # ###################################################################
 # GPIO.cleanup()
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.OUT)
+GPIO.setup(21, GPIO.OUT)
 
 # creation d'un objet PWM. canal=17 frequence=50Hz
-FAN = GPIO.PWM(17, 50)
+FAN = GPIO.PWM(21, 50)
 
 FAN.start(0)
 # Sensor should be set to Adafruit_DHT.DHT11,
