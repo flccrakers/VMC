@@ -97,7 +97,7 @@ while True:
         humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 
     if humidity is not None:
-        if humidity <= 65:
+        if humidity <= 65 or humidity >= 130:  # 130 is to limit the starting of the fan  when having a false positive
             duty = 0
             FAN.ChangeDutyCycle(duty)
             if not start_vent_date == 1000:
